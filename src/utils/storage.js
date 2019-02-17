@@ -96,7 +96,16 @@ module.exports.getPlaylist = (playlistId) => {
 module.exports.getPlaylists = () => {
   return execute(async (db, done) => {
     const records = await db.collection('playlists')
-      .find({})
+      .find({}, { projection: {
+        id: true,
+        name: true,
+        description: true,
+        owner: true,
+        updated: true,
+        images: true,
+        tags: true,
+        'tracks.total': true,
+      }})
       .sort({ updated: -1 })
       .toArray();
     done();

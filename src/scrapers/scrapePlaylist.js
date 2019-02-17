@@ -41,6 +41,9 @@ const scrapePlaylist = async () => {
     '9f7p3o': 'September competition - Short Stuff',
     '948mgy': 'August competition - Undiscovered',
     '8vhzzs': 'July competition - Live',
+    '8nq8v1': 'June competition - Questions?',
+    '8gh3q4': 'May competition - The name game',
+    '8borze': 'April competition - Party tunes',
   }[src.thread]));
   let updated = new Date(0);
   for (const track of data.tracks.items) {
