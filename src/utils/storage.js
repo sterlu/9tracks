@@ -10,7 +10,7 @@ const linkStatus = module.exports.linkStatus = {
 };
 
 const execute = async (func) => {
-  const client = new MongoClient(url);
+  const client = new MongoClient(url, {useNewUrlParser: true});
   await client.connect();
   const db = client.db(dbName);
   return func(db, () => client.close());

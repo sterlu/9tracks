@@ -27,7 +27,7 @@ const scrapePlaylist = async () => {
 
   const response = await fetch(spotify.playlistLink(playlistId), {
     headers: {
-      authorization: `Bearer ${(await getAccessToken())}`,
+      authorization: `Bearer ${(await getAccessToken())}`, // TODO cache token
     }
   });
   const data = await response.json();
@@ -46,7 +46,7 @@ const scrapePlaylist = async () => {
     '8borze': 'April competition - Party tunes',
   }[src.thread]));
   let updated = new Date(0);
-  let created = new Date(0);
+  let created = new Date(8640000000000000);
   for (const track of data.tracks.items) {
     const added = new Date(track.added_at);
     if (added > updated) updated = added;
