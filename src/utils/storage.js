@@ -106,7 +106,7 @@ module.exports.getPlaylists = () => {
         tags: true,
         'tracks.total': true,
       }})
-      .sort({ updated: -1 })
+      .sort({ created: -1 })
       .toArray();
     done();
     return records;
