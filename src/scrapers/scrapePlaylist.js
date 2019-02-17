@@ -42,6 +42,12 @@ const scrapePlaylist = async () => {
     '948mgy': 'August competition - Undiscovered',
     '8vhzzs': 'July competition - Live',
   }[src.thread]));
+  let updated = new Date(0);
+  for (const track of data.tracks.items) {
+    const added = new Date(track.added_at);
+    if (added > updated) updated = added;
+  }
+  data.updated = updated;
   const pName = data.name;
   const pImage = data.images && data.images.length && data.images[0].url;
   const oName = data.owner.display_name;

@@ -95,7 +95,10 @@ module.exports.getPlaylist = (playlistId) => {
 
 module.exports.getPlaylists = () => {
   return execute(async (db, done) => {
-    const records = await db.collection('playlists').find({}).toArray();
+    const records = await db.collection('playlists')
+      .find({})
+      .sort({ updated: -1 })
+      .toArray();
     done();
     return records;
   });
