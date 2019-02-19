@@ -1,6 +1,7 @@
 const React = require('react');
 
 import PlaylistPlayer from '../PlaylistPlayer/PlaylistPlayer';
+import DeezerPlaylistPlayer from '../PlaylistPlayer/DeezerPlaylistPlayer';
 
 import '../App.scss';
 import './List.scss';
@@ -10,30 +11,46 @@ class List extends React.Component {
     super(props);
 
     this.state = {
-      id: ''
+      playingWith: '',
+      currentPlaylist: {},
     };
 
     this.playPlaylist = this.playPlaylist.bind(this);
   }
 
-  playPlaylist(id) {
-    this.setState({ id });
+  playPlaylist(playlist) {
+    this.setState({
+      playingWith: 'spotify',
+      currentPlaylist: playlist,
+    });
+  }
+
+  playOnDeezer(playlist) {
+    this.setState({
+      playingWith: 'deezer',
+      currentPlaylist: playlist,
+    });
   }
 
   render() {
     const { playlists = [] } = this.props;
-    const { id } = this.state;
+    const { currentPlaylist, playingWith } = this.state;
 
     return (
       <div>
-        <PlaylistPlayer id={id} />
+        { playingWith === 'spotify' && <PlaylistPlayer playlist={currentPlaylist} /> }
+        { playingWith === 'deezer' && <DeezerPlaylistPlayer playlist={currentPlaylist} /> }
         <div className="playlist-list">
           {
             playlists.map(playlist => (
-              <a className="playlist-thumb-wrapper" key={playlist.id}
-                 onClick={() => this.playPlaylist(playlist.id)}>
-                <div className="cover"
-                     style={{ backgroundImage: `url(${playlist.images.length && playlist.images[0].url})` }} />
+              <a className="playlist-thumb-wrapper" key={playlist.id}>
+                <div className="cover" style={{ backgroundImage: `url(${playlist.images.length && playlist.images[0].url})` }}>
+                  <a onClick={e => this.playPlaylist(playlist)} title="Open in Spotify">Play using Spotify️</a>
+                  {
+                    playlist.deezerTracks &&
+                    <a onClick={e => this.playOnDeezer(playlist)} title="Open in Deezer">Play using Deezer️</a>
+                  }
+                </div>
                 <div className="meta">
                   <h2>
                     {playlist.name}{' '}

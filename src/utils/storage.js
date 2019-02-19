@@ -10,7 +10,7 @@ const linkStatus = module.exports.linkStatus = {
 };
 
 const execute = async (func) => {
-  const client = new MongoClient(url, {useNewUrlParser: true});
+  const client = new MongoClient(url, { useNewUrlParser: true });
   await client.connect();
   const db = client.db(dbName);
   return func(db, () => client.close());
@@ -74,7 +74,6 @@ module.exports.updateLinkStatus = async (playlistId, status) => {
   });
 };
 
-
 module.exports.getLink = (playlistId) => {
   return execute(async (db, done) => {
     const records = await db.collection('links').find({ playlistId }).limit(1).toArray();
@@ -82,7 +81,6 @@ module.exports.getLink = (playlistId) => {
     return records[0];
   });
 };
-
 
 module.exports.getPlaylist = (playlistId) => {
   return execute(async (db, done) => {
@@ -92,22 +90,34 @@ module.exports.getPlaylist = (playlistId) => {
   });
 };
 
-
 module.exports.getPlaylists = () => {
   return execute(async (db, done) => {
     const records = await db.collection('playlists')
-      .find({}, { projection: {
-        id: true,
-        name: true,
-        description: true,
-        owner: true,
-        updated: true,
-        images: true,
-        tags: true,
-        'tracks.total': true,
-      }})
+      .find({}, {
+        projection: {
+          id: true,
+          name: true,
+          description: true,
+          owner: true,
+          updated: true,
+          images: true,
+          tags: true,
+          'tracks.total': true,
+          deezerTracks: true,
+        }
+      })
       .sort({ created: -1 })
       .toArray();
+    done();
+    return records;
+  });
+};
+
+module.exports.getJobs = () => {
+  return execute(async (db, done) => {
+    const records = await db.collection('jobs')
+      .find({ status: linkStatus.TO_SCRAPE })
+      .sort({ created: -1 })
     done();
     return records;
   });

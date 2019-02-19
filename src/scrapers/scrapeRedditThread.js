@@ -1,5 +1,5 @@
 const fetch = require('node-fetch');
-const storage = require('../utils/storage');
+const storage = require('../utils/storage_permanentConnection');
 
 if (process.argv.length < 3)
   throw new Error('No thread ID provided');
@@ -19,7 +19,8 @@ const playlistUrlRegex = /https:\/\/open\.spotify\.com\/user\/[^/]*\/playlist\/[
     if (match) {
       console.log(match[0]);
       const playlistId = match[0].substr(-22);
-      storage.addLinkToScrape(playlistId, { thread: threadId, comment: comment.data.id });
+      await storage.enqueueSpotifyPlaylist(playlistId, { thread: threadId, comment: comment.data.id });
+      storage.endConnection()
     }
     // if (!match) console.log(comment.data.body)
   }

@@ -1,15 +1,15 @@
 import React, { PureComponent } from 'react';
 
-import './PlaylistPlayer.scss';
+import './DeezerPlaylistPlayer.scss';
 
 class PlaylistPlayer extends PureComponent {
   render() {
+    const { id } = this.props.playlist;
     return (
-      <div className={'player-wrapper ' + (this.props.id ? 'playing' : '')}>
+      <div className={'spotify-player-wrapper ' + (id ? 'playing' : '')}>
         {
-          this.props.id &&
-          <iframe src={`https://open.spotify.com/embed/playlist/${this.props.id}`}
-                  width="300" height="80" frameBorder="0" allow="encrypted-media" />
+          id &&
+          <iframe src={`https://open.spotify.com/embed/playlist/${id}`} frameBorder="0" allow="encrypted-media" />
         }
       </div>
     );

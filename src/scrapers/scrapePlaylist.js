@@ -1,6 +1,6 @@
 const fetch = require('node-fetch');
 const spotify = require('../utils/spotifyApiUtils');
-const storage = require('../utils/storage');
+const storage = require('../utils/storage_permanentConnection');
 
 const getAccessToken = async () => {
   // check db
@@ -21,7 +21,7 @@ const getAccessToken = async () => {
 
 const scrapePlaylist = async () => {
   if (process.argv.length < 3)
-    throw new Error('No thread ID provided');
+    throw new Error('No playlist ID provided');
 
   const playlistId = process.argv[2];
 
@@ -34,8 +34,11 @@ const scrapePlaylist = async () => {
   if (data.error)
     throw new Error(data.error.message);
 
-  const linkData = await storage.getLink(playlistId);
-  data.tags = linkData.source.map(src => ({
+  if (data.tracks.total === 0)
+    return;
+
+  const jobData = await storage.getJob({ playlistId });
+  const tag = {
     'am1787': 'February competition - Crosstown',
     'aedlf5': 'January competition - The Local Meltdown',
     '9f7p3o': 'September competition - Short Stuff',
@@ -44,7 +47,7 @@ const scrapePlaylist = async () => {
     '8nq8v1': 'June competition - Questions?',
     '8gh3q4': 'May competition - The name game',
     '8borze': 'April competition - Party tunes',
-  }[src.thread]));
+  }[jobData.source.thread];
   let updated = new Date(0);
   let created = new Date(8640000000000000);
   for (const track of data.tracks.items) {
@@ -58,7 +61,9 @@ const scrapePlaylist = async () => {
   const pImage = data.images && data.images.length && data.images[0].url;
   const oName = data.owner.display_name;
   console.log(`Scraped "${pName}" by ${oName} \n${pImage}\n`);
-  return storage.addPlaylistInfo(data);
+  await storage.addPlaylistInfo(data, { tag });
+  await storage.enqueueSpotifyToDeezerReplication(playlistId);
+  storage.endConnection();
 };
 
 scrapePlaylist()
