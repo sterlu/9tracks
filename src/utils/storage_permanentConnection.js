@@ -1,7 +1,7 @@
 const MongoClient = require('mongodb').MongoClient;
 
-const url = 'mongodb://localhost:27017';
-const dbName = '9tracks';
+const url = `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}`;
+const dbName = process.env.DB_NAME;
 
 const jobStatus = module.exports.jobStatus = {
   TO_SCRAPE: 0,
