@@ -4,13 +4,13 @@ import './PlaylistPlayer.scss';
 
 class PlaylistPlayer extends PureComponent {
   render() {
-    const { deezerTracks } = this.props.playlist;
+    const { deezer } = this.props.playlist.tracks;
     return (
-      <div className={'deezer-player-wrapper ' + (deezerTracks ? 'playing' : '')}>
+      <div className={'deezer-player-wrapper ' + (deezer ? 'playing' : '')}>
         {
-          deezerTracks &&
+          deezer &&
           <iframe scrolling="no" frameBorder="0"
-                  src={`https://www.deezer.com/plugins/player?format=classic&autoplay=false&playlist=true&width=700&height=350&color=007FEB&layout=dark&size=medium&type=tracks&id=${deezerTracks.join(',')}&app_id=1`} />
+                  src={`https://www.deezer.com/plugins/player?format=classic&autoplay=false&playlist=true&width=700&height=350&color=007FEB&layout=dark&size=medium&type=tracks&id=${deezer.items.join(',')}&app_id=1`} />
         }
       </div>
     );

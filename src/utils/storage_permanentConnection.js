@@ -65,7 +65,6 @@ module.exports.addPlaylistInfo = async (playlist, extraData = {}) => {
     },
     $addToSet: {
       tags: extraData.tag,
-      replications: extraData.replicated
     },
   }, {
     upsert: true,
@@ -112,9 +111,10 @@ module.exports.getPlaylists = async () => {
         description: true,
         owner: true,
         updated: true,
-        images: true,
+        created: true,
+        cover: true,
         tags: true,
-        'tracks.total': true,
+        tracks: true,
       }
     })
     .sort({ created: -1 })

@@ -2,6 +2,10 @@
   display: flex;
   flex-flow: wrap;
   background-color: #eee;
+  @media (max-width: 500px) {
+    display: block;
+    padding: 1px 0;
+  }
 
   .playlist-thumb-wrapper {
     flex: 1 1 0;
@@ -18,11 +22,12 @@
     box-shadow: 0 0 2px 1px rgba(black, .1);
 
     @media (max-width: 500px) {
-      width: 100%;
+      display: block;
+      height: auto;
+      min-width: auto;
     }
 
     &:hover {
-      background-color: #E9E9E9;
       .cover:after,
       .cover a {
         display: block !important;
@@ -40,6 +45,10 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      @media (max-width: 500px) {
+        width: 100%;
+        height: 100vw;
+      }
 
       a {
         display: none;

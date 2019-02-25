@@ -43,12 +43,12 @@ class List extends React.Component {
         <div className="playlist-list">
           {
             playlists.map(playlist => (
-              <a className="playlist-thumb-wrapper" key={playlist.id}>
-                <div className="cover" style={{ backgroundImage: `url(${playlist.images.length && playlist.images[0].url})` }}>
-                  <a onClick={e => this.playPlaylist(playlist)} title="Open in Spotify">Play using Spotify️</a>
+              <div className="playlist-thumb-wrapper" key={playlist.id}>
+                <div className="cover" style={{ backgroundImage: `url(${playlist.cover})` }}>
+                  <a onClick={() => this.playPlaylist(playlist)} title="Open in Spotify">▶️ Play using Spotify️</a>
                   {
-                    playlist.deezerTracks &&
-                    <a onClick={e => this.playOnDeezer(playlist)} title="Open in Deezer">Play using Deezer️</a>
+                    playlist.tracks.deezer &&
+                    <a onClick={() => this.playOnDeezer(playlist)} title="Open in Deezer">▶️ Play using Deezer️</a>
                   }
                 </div>
                 <div className="meta">
@@ -58,10 +58,10 @@ class List extends React.Component {
                        onClick={e => e.stopPropagation()} title="Open in Spotify">↗️</a>
                   </h2>
                   <h4>
-                    by {playlist.owner.display_name}
+                    by {playlist.owner.name}
                   </h4>
                   <h5>
-                    {playlist.tracks.total} tracks
+                    {playlist.tracks.spotify.total} tracks
                     {playlist.updated &&
                     <span> | updated {(playlist.updated.toISOString ? playlist.updated.toISOString() : playlist.updated).substr(0, 10)}</span>}
                   </h5>
@@ -72,7 +72,7 @@ class List extends React.Component {
                   </h5>
                   <h3 dangerouslySetInnerHTML={{ __html: playlist.description }} />
                 </div>
-              </a>
+              </div>
             ))
           }
         </div>

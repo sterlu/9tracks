@@ -14,16 +14,13 @@ const replicateSpotifyToDeezer = async () => {
 
   const replicatedTracks = [];
 
-  for (const { track } of playlistData.tracks.items) {
-    console.log(track.artists[0].name, cleanSongName(track.name));
-    console.log(deezer.searchLink(track.artists[0].name, cleanSongName(track.name)));
-    const response = await fetch(deezer.searchLink(track.artists[0].name, cleanSongName(track.name)));
+  for (const track of playlistData.tracks.spotify.items) {
+    const response = await fetch(deezer.searchLink(track.artist, cleanSongName(track.name)));
     const data = await response.json();
     if (!data.data) throw JSON.stringify(data);
     if (data.data.length) {
-      const track = data.data[0];
-      console.log(track.artist.name, track.title_short);
-      replicatedTracks.push(track.id);
+      const found = data.data[0];
+      replicatedTracks.push(found.id);
     } else {
       console.error('No data for ', track.artists[0].name, cleanSongName(track.name));
     }
@@ -31,7 +28,13 @@ const replicateSpotifyToDeezer = async () => {
 
   await storage.addPlaylistInfo({
     id: playlistId,
-    deezerTracks: replicatedTracks,
+    tracks: {
+      spotify: playlistData.tracks.spotify,
+      deezer: {
+        total: replicatedTracks.length,
+        items: replicatedTracks
+      }
+    },
   });
 
   storage.endConnection();

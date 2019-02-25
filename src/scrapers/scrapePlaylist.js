@@ -37,17 +37,44 @@ const scrapePlaylist = async () => {
   if (data.tracks.total === 0)
     return;
 
+  const playlist = {};
+
+  playlist.source = 'spotify';
+  playlist.name = data.name;
+  playlist.description = data.description;
+  playlist.id = data.id;
+  playlist.spotifyId = data.id;
+  playlist.images = data.images;
+  playlist.cover = (data.images && data.images.length && data.images[0].url);
+  playlist.owner = {
+    name: data.owner.display_name,
+    id: data.owner.id,
+  };
+  playlist.tracks = {
+    spotify: {
+      total: data.tracks.total,
+      items: data.tracks.items.map((item) => ({
+        name: item.track.name,
+        artist: item.track.artists[0].name,
+        artists: item.track.artists,
+        album: item.track.album.name,
+      })),
+    }
+  };
+
+  const extraData = {};
   const jobData = await storage.getJob({ playlistId });
-  const tag = {
-    'am1787': 'February competition - Crosstown',
-    'aedlf5': 'January competition - The Local Meltdown',
-    '9f7p3o': 'September competition - Short Stuff',
-    '948mgy': 'August competition - Undiscovered',
-    '8vhzzs': 'July competition - Live',
-    '8nq8v1': 'June competition - Questions?',
-    '8gh3q4': 'May competition - The name game',
-    '8borze': 'April competition - Party tunes',
-  }[jobData.source.thread];
+  if (jobData && jobData.source)
+    extraData.tag = {
+      'am1787': 'February competition - Crosstown',
+      'aedlf5': 'January competition - The Local Meltdown',
+      '9f7p3o': 'September competition - Short Stuff',
+      '948mgy': 'August competition - Undiscovered',
+      '8vhzzs': 'July competition - Live',
+      '8nq8v1': 'June competition - Questions?',
+      '8gh3q4': 'May competition - The name game',
+      '8borze': 'April competition - Party tunes',
+    }[jobData.source.thread];
   let updated = new Date(0);
   let created = new Date(8640000000000000);
   for (const track of data.tracks.items) {
@@ -55,13 +82,10 @@ const scrapePlaylist = async () => {
     if (added > updated) updated = added;
     if (added < created) created = added;
   }
-  data.updated = updated;
-  data.created = created;
-  const pName = data.name;
-  const pImage = data.images && data.images.length && data.images[0].url;
-  const oName = data.owner.display_name;
-  console.log(`Scraped "${pName}" by ${oName} \n${pImage}\n`);
-  await storage.addPlaylistInfo(data, { tag });
+  playlist.updated = updated;
+  playlist.created = created;
+  console.log(`Scraped "${playlist.name}" by ${playlist.owner.name}`);
+  await storage.addPlaylistInfo(playlist, extraData);
   await storage.enqueueSpotifyToDeezerReplication(playlistId);
   storage.endConnection();
 };

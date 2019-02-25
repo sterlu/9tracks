@@ -100,10 +100,10 @@ module.exports.getPlaylists = () => {
           description: true,
           owner: true,
           updated: true,
-          images: true,
+          created: true,
+          cover: true,
           tags: true,
-          'tracks.total': true,
-          deezerTracks: true,
+          tracks: true,
         }
       })
       .sort({ created: -1 })
