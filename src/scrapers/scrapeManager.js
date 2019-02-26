@@ -1,5 +1,6 @@
 const sem = require('semaphore')(10);
 const { spawn } = require('child_process');
+
 const storage = require('../utils/storage_permanentConnection');
 
 const runJobs = async () => {
@@ -14,15 +15,15 @@ const runJobs = async () => {
     switch (job.type) {
       case 'spotify_playlist':
         console.log('Scraping ', job.playlistId);
-        process = spawn('node', ['scrapePlaylist.js', job.playlistId]);
+        process = spawn('node', ['src/scrapers/scrapePlaylist.js', job.playlistId]);
         break;
       case 'reddit_thread':
         console.log('Scraping ', job.threadId);
-        process = spawn('node', ['scrapeRedditThread.js', job.threadId]);
+        process = spawn('node', ['src/scrapers/scrapeRedditThread.js', job.threadId]);
         break;
       case 'replicate_spotify_to_deezer':
         console.log('Replicating ', job.playlistId);
-        process = spawn('node', ['replicateSpotifyToDeezer.js', job.playlistId]);
+        process = spawn('node', ['src/scrapers/replicateSpotifyToDeezer.js', job.playlistId]);
         break;
       default:
         console.log('Unknown job type: ' + job.type);
