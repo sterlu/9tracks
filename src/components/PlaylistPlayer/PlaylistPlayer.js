@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 
-import './DeezerPlaylistPlayer.scss';
+import './PlaylistPlayer.scss';
 
 class PlaylistPlayer extends PureComponent {
   render() {

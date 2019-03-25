@@ -1,0 +1,26 @@
+.explore-wrapper{
+  .playlist-grid {
+    display: grid;
+    grid-column-gap: 50px;
+    grid-row-gap: 50px;
+    grid-template-columns: repeat(5, 200px);
+    @media (max-width: 500px) {
+      display: block;
+      padding: 1px 0;
+    }
+
+  }
+
+  .fetch-more {
+    display: block;
+    margin: 20px auto;
+    width: 100px;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  .loading {
+    margin: 20px auto;
+    text-align: center;
+  }
+}

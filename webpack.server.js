@@ -5,9 +5,7 @@ module.exports = {
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   target: 'node',
   externals: [nodeExternals()],
-  entry: {
-    List: './src/components/List/List.js'
-  },
+  entry: ['./src/clientEntry.js'],
   module: {
     rules: [
       {
@@ -22,7 +20,22 @@ module.exports = {
           'css-loader',
           'sass-loader'
         ],
-      }
+      },
+      { // fixes https://github.com/graphql/graphql-js/issues/1272
+        test: /\.mjs$/,
+        include: /node_modules/,
+        type: 'javascript/auto'
+      },
+      {
+        test: /\.(woff(2)?)(\?v=\d+\.\d+\.\d+)?$/,
+        use: [{
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+            outputPath: 'fonts/'
+          }
+        }]
+      },
     ]
   },
   resolve: {
@@ -31,7 +44,7 @@ module.exports = {
   output: {
     path: __dirname + '/build',
     filename: 'main.js',
-    publicPath: '/dist/',
+    publicPath: '/public/',
     library: 'app',
     libraryTarget: 'commonjs2'
   },

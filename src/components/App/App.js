@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import List from '../List/List'
+import Explore from '../Explore/Explore'
 import Header from './Header/Header'
 import './App.scss';
 
@@ -8,7 +8,7 @@ class App extends Component {
     return (
       <div className="container">
         <Header />
-        <List />
+        <Explore />
       </div>
     );
   }

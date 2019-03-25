@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 
-import './PlaylistPlayer.scss';
+import './DeezerPlaylistPlayer.scss';
 
-class PlaylistPlayer extends PureComponent {
+class DeezerPlaylistPlayer extends PureComponent {
   render() {
     const { deezer } = this.props.playlist.tracks;
     return (
@@ -17,4 +17,4 @@ class PlaylistPlayer extends PureComponent {
   }
 }
 
-export default PlaylistPlayer;
+export default DeezerPlaylistPlayer;

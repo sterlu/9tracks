@@ -1,8 +1,10 @@
+@import 'font-hkgrotesk/index.css';
+
 html, body {
   padding: 0;
   margin: 0;
-  font-family: Helvetica, Arial, sans-serif;
-  min-height: 100vh;
+  font-family: hk_grotesk, Helvetica, Arial, sans-serif;
+  color: #333;
 }
 
 .container {

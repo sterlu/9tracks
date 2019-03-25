@@ -1,0 +1,103 @@
+.playlist-tile-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  color: #333;
+  cursor: pointer;
+  justify-content: start;
+  @media (max-width: 500px) {
+    display: block;
+    height: auto;
+    min-width: auto;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  p {
+    margin: 0;
+  }
+
+  &:hover {
+    .cover:after,
+    .cover .details {
+      display: block !important;
+    }
+  }
+
+  .cover {
+    flex: 0 0 200px;
+    width: 200px;
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    @media (max-width: 500px) {
+      width: 100%;
+      height: 100vw;
+    }
+
+    .details {
+      position: relative;
+      display: none;
+      box-sizing: border-box;
+      height: 100%;
+      padding: 20px;
+      z-index: 5;
+      color: white;
+      font-size: 12px;
+      line-height: 1.4;
+
+      .description {
+        max-height: 80px;
+        overflow: hidden;
+      }
+
+      .actions {
+        position: absolute;
+        bottom: 20px;
+      }
+    }
+
+    &:after {
+      content: '️';
+      position: absolute;
+      z-index: 3;
+      display: none;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: rgba(black, .7);
+    }
+  }
+
+  .meta {
+    padding-top: 15px;
+
+    .name {
+      font-size: 16px;
+      font-weight: bold;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    .tags-wrapper {
+      span {
+        display: inline-block;
+        background-color: #eee;
+        border-radius: 3px;
+        padding: 1px 4px;
+        font-weight: bold;
+        font-size: 11px;
+        color: #555;
+      }
+    }
+  }
+}

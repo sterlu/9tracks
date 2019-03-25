@@ -1,12 +1,9 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   target: 'web',
-  entry: {
-    List: './src/clientEntry.js'
-  },
+  entry: ['./src/clientEntry.js'],
   module: {
     rules: [
       {
@@ -27,6 +24,16 @@ module.exports = {
         include: /node_modules/,
         type: 'javascript/auto'
       },
+      {
+        test: /\.(woff(2)?)(\?v=\d+\.\d+\.\d+)?$/,
+        use: [{
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+            outputPath: 'fonts/'
+          }
+        }]
+      },
     ],
   },
   resolve: {
@@ -35,13 +42,11 @@ module.exports = {
   output: {
     path: __dirname + '/build',
     filename: 'client.js',
-    publicPath: '/dist/',
-    // library: 'app',
-    // libraryTarget: 'commonjs2'
+    publicPath: '/public/',
   },
   plugins: [
     new MiniCssExtractPlugin({
       filename: 'styles.css',
-    })
+    }),
   ],
 };

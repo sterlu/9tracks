@@ -110,7 +110,6 @@ const artist = {
 const resolvers = {
   Query: {
     playlists: async (root, { count, offset }) => {
-      console.log(offset, count)
       return (await storage.getPlaylists(count, offset));
     },
     playlist: async (root, { _id }) => {
