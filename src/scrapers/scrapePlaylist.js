@@ -1,6 +1,7 @@
 const fetch = require('node-fetch');
 const spotify = require('../utils/spotifyApiUtils');
 const storage = require('../utils/storage_permanentConnection');
+const reddit = require('../utils/redditApiUtils');
 
 const getAccessToken = async () => {
   // check db
@@ -65,16 +66,7 @@ const scrapePlaylist = async () => {
   const extraData = {};
   const jobData = await storage.getJob({ playlistId });
   if (jobData && jobData.source)
-    extraData.tag = {
-      'am1787': 'February competition - Crosstown',
-      'aedlf5': 'January competition - The Local Meltdown',
-      '9f7p3o': 'September competition - Short Stuff',
-      '948mgy': 'August competition - Undiscovered',
-      '8vhzzs': 'July competition - Live',
-      '8nq8v1': 'June competition - Questions?',
-      '8gh3q4': 'May competition - The name game',
-      '8borze': 'April competition - Party tunes',
-    }[jobData.source.thread];
+    extraData.tag = reddit.threadTags[jobData.source.thread];
   let updated = new Date(0);
   let created = new Date(8640000000000000);
   for (const track of data.tracks.items) {

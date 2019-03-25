@@ -21,8 +21,13 @@ module.exports = {
           'css-loader',
           'sass-loader'
         ],
-      }
-    ]
+      },
+      { // fixes https://github.com/graphql/graphql-js/issues/1272
+        test: /\.mjs$/,
+        include: /node_modules/,
+        type: 'javascript/auto'
+      },
+    ],
   },
   resolve: {
     extensions: ['*', '.js', '.jsx']

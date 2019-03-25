@@ -19,7 +19,7 @@ module.exports.getPlaylist = (playlistId) => {
   });
 };
 
-module.exports.getPlaylists = () => {
+module.exports.getPlaylists = (count, offset) => {
   return execute(async (db, done) => {
     const records = await db.collection('playlists')
       .find({}, {
@@ -35,6 +35,8 @@ module.exports.getPlaylists = () => {
           tracks: true,
         }
       })
+      .skip(offset)
+      .limit(count)
       .sort({ created: -1 })
       .toArray();
     done();

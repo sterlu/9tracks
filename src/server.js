@@ -2,8 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const http = require('http');
 const express = require('express');
-const storage = require('./utils/storage');
-const renderer = require('./utils/renderer');
+
+const graphqlServer = require('./graphqlServer');
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -17,25 +17,15 @@ app.use(function (req, res, next) {
 
 app.use('/public', express.static(path.join(__dirname, '../build')));
 
-app.get('/', async (req, res) => {
-  const playlists = (await storage.getPlaylists())
-    .map((playlist) => {
-      delete playlist.tracks.items;
-      return playlist;
-    });
+graphqlServer(app, '/graphql');
+
+app.get('/**', async (req, res) => {
   fs.readFile('./build/index.html', 'utf8', (err, indexHtml) => {
     if (err) {
       console.error('Something went wrong:', err);
       return res.status(500).send('Oops, better luck next time!');
     }
-    const App = require('../build/main');
-    return res.send(
-      indexHtml.replace(
-        '<div id="root"></div>',
-        `<div id="root">${renderer(App.default || App, { playlists: playlists.slice(0, 12) })}</div>`
-        + `<script>window.playlists = ${JSON.stringify(playlists)}</script>`
-      )
-    );
+    return res.send(indexHtml);
   });
 });
 
