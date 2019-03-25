@@ -4,7 +4,17 @@
     grid-column-gap: 50px;
     grid-row-gap: 50px;
     grid-template-columns: repeat(5, 200px);
-    @media (max-width: 500px) {
+    @media (max-width: 1279px) {
+      grid-template-columns: repeat(4, 200px);
+      justify-content: space-between;
+    }
+    @media (max-width: 1029px) {
+      grid-template-columns: repeat(3, 200px);
+    }
+    @media (max-width: 779px) {
+      grid-template-columns: repeat(2, 200px);
+    }
+    @media (max-width: 529px) {
       display: block;
       padding: 1px 0;
     }

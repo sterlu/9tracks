@@ -1,14 +1,11 @@
 .playlist-tile-wrapper {
-  display: flex;
-  flex-direction: column;
   width: 200px;
   color: #333;
   cursor: pointer;
   justify-content: start;
-  @media (max-width: 500px) {
-    display: block;
-    height: auto;
-    min-width: auto;
+  @media (max-width: 529px) {
+    width: 100%;
+    margin-bottom: 50px;
   }
 
   a {
@@ -31,15 +28,14 @@
   }
 
   .cover {
-    flex: 0 0 200px;
     width: 200px;
     height: 200px;
     background-size: cover;
     background-position: center;
     position: relative;
-    @media (max-width: 500px) {
+    @media (max-width: 529px) {
       width: 100%;
-      height: 100vw;
+      height: calc(100vw - 80px);
     }
 
     .details {
