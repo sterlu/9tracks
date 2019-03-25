@@ -63,10 +63,9 @@ const scrapePlaylist = async () => {
     }
   };
 
-  const extraData = {};
   const jobData = await storage.getJob({ playlistId });
   if (jobData && jobData.source)
-    extraData.tag = reddit.threadTags[jobData.source.thread];
+    playlist.tags = reddit.threadTags(jobData.source.thread);
   let updated = new Date(0);
   let created = new Date(8640000000000000);
   for (const track of data.tracks.items) {
@@ -77,8 +76,7 @@ const scrapePlaylist = async () => {
   playlist.updated = updated;
   playlist.created = created;
   console.log(`Scraped "${playlist.name}" by ${playlist.owner.name}`);
-  await storage.addPlaylistInfo(playlist, extraData);
-  await storage.enqueueSpotifyToDeezerReplication(playlistId);
+  await storage.addPlaylistInfo(playlist);
   storage.endConnection();
 };
 

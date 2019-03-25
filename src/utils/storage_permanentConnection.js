@@ -56,16 +56,13 @@ module.exports.enqueueSpotifyToDeezerReplication = async (playlistId) => {
   });
 };
 
-module.exports.addPlaylistInfo = async (playlist, extraData = {}) => {
+module.exports.addPlaylistInfo = async (playlist) => {
   await connect();
   return db.collection('playlists').updateOne({
     id: playlist.id,
   }, {
     $set: {
       ...playlist
-    },
-    $addToSet: {
-      tags: extraData.tag,
     },
   }, {
     upsert: true,

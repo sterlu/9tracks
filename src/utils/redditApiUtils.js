@@ -13,6 +13,7 @@ module.exports.threadTags = (threadId) => {
     '8gh3q4': 'The name game',
     '8borze': 'Party tunes',
   };
+  console.log(spotifyMonthlyCompetitions[threadId])
   if (spotifyMonthlyCompetitions[threadId])
     tags.push(spotifyMonthlyCompetitions[threadId], 'competition');
   return tags;
