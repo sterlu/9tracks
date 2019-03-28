@@ -8,7 +8,7 @@ class PlaylistTile extends PureComponent {
       <div className="playlist-tile-wrapper">
         <div className="cover" style={{ backgroundImage: `url(${playlist.cover})` }}>
           <div className="details">
-            <p><b>by {playlist.owner.name} | {playlist.tracks.spotify.total} tracks</b></p>
+            <p><b>by {playlist.creator} | {playlist.total_tracks} tracks</b></p>
             <p className="description" dangerouslySetInnerHTML={{ __html: playlist.description }} />
             <div className="actions">
               <a onClick={() => this.props.play(playlist)} title="Play">▶️ Play</a>
@@ -23,6 +23,7 @@ class PlaylistTile extends PureComponent {
           </p>
           <div className="tags-wrapper">
             {
+              playlist.tags &&
               playlist.tags.map(tag => <span key={tag}>{tag}</span>)
             }
           </div>

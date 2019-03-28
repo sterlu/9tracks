@@ -1,7 +1,7 @@
 const fetch = require('node-fetch');
 
 const deezer = require('../utils/deezerApiUtils');
-const storage = require('../utils/storage_permanentConnection');
+const storage = require('../utils/storage');
 const { cleanSongName } = require('../utils/replicationUtils');
 
 const replicateSpotifyToDeezer = async () => {

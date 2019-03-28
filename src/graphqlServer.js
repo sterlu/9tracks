@@ -16,11 +16,11 @@ const typeDefs = [`
     updated: String
     cover: String
     images: [Image]
-    owner: SpotifyUser
+    creator: String
     source: String
-    spotifyId: String
     tags: [String]
-    tracks: PlaylistTracks
+    tracks: [String]
+    total_tracks: Int
   }
   
   type PlaylistTracks {

@@ -1,4 +1,4 @@
-const storage = require('../utils/storage_permanentConnection');
+const storage = require('../utils/storage');
 
 const enqueue = async () => {
   if (process.argv.length < 3)
@@ -7,11 +7,12 @@ const enqueue = async () => {
   const threadId = process.argv[2];
 
   await storage.enqueueRedditThread(threadId);
-
-  await storage.endConnection();
 };
 
 enqueue()
+  .then(() => {
+    process.exit(0);
+  })
   .catch((err) => {
     console.error(err);
     process.exit(1);

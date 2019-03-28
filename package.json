@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build-server": "webpack --watch --config=webpack.server.js",
-    "build-client": "webpack --watch --config=webpack.client.js",
-    "build": "webpack --config=webpack.server.js; webpack --config=webpack.client.js",
+    "ssr": "webpack --watch --config=webpack.server.js",
+    "dev": "webpack --watch --config=webpack.client.js",
+    "prod": "webpack --config=webpack.server.js; webpack --config=webpack.client.js",
     "server": "node src/server.js"
   },
   "author": "",
@@ -26,9 +26,9 @@
     "file-loader": "^3.0.1",
     "graphql": "^14.1.1",
     "graphql-tag": "^2.10.1",
-    "mongodb": "^3.1.13",
     "node-fetch": "^2.3.0",
     "node-sass": "^4.11.0",
+    "pg": "^7.9.0",
     "react": "^16.8.2",
     "react-apollo": "^2.4.1",
     "react-dom": "^16.8.2",

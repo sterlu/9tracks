@@ -9,16 +9,9 @@ export const queryPlaylists = gql`
       created
       updated
       cover
-      owner { 
-        name
-      }
-      spotifyId
+      creator
       tags
-      tracks {
-        spotify {
-          total
-        } 
-      }
+      total_tracks
     }
   }
 `;

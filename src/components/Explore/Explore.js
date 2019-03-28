@@ -51,7 +51,7 @@ class Explore extends React.Component {
               return <div>
                 <div className="playlist-grid">
                   {
-                    data.playlists &&
+                    data && data.playlists &&
                     data.playlists.map(playlist => (
                       <PlaylistTile key={playlist.id} playlist={playlist}
                                     play={this.playPlaylist} />

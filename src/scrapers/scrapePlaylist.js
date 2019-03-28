@@ -1,24 +1,7 @@
 const fetch = require('node-fetch');
 const spotify = require('../utils/spotifyApiUtils');
-const storage = require('../utils/storage_permanentConnection');
+const storage = require('../utils/storage');
 const reddit = require('../utils/redditApiUtils');
-
-const getAccessToken = async () => {
-  // check db
-  const response = await fetch(spotify.accessTokenLink(), {
-    method: 'POST',
-    headers: {
-      authorization: 'Basic YWFjNmVmNWIyNzFiNGQxNDk3NDRiNmU3YTE1ODlhYzM6YWRkZTBhYzE3ZmIzNGMyN2FmODczNDQ1OWU1ZWM5YWE',
-      'content-type': 'application/x-www-form-urlencoded',
-    },
-    body: 'grant_type=client_credentials',
-  });
-  const data = await response.json();
-  if (data.error)
-    throw new Error(data.error_description);
-  // store in db
-  return data.access_token;
-};
 
 const scrapePlaylist = async () => {
   if (process.argv.length < 3)
@@ -26,13 +9,19 @@ const scrapePlaylist = async () => {
 
   const playlistId = process.argv[2];
 
+  const currentData = await storage.getPlaylist(playlistId);
+  if (currentData && currentData.data_updated.valueOf() > (Date.now() - (0.1 * 24 * 60 * 60 * 1000)))
+    return;
+
   const response = await fetch(spotify.playlistLink(playlistId), {
     headers: {
-      authorization: `Bearer ${(await getAccessToken())}`, // TODO cache token
+      authorization: `Bearer ${(await spotify.getAccessToken())}`, // TODO cache token
     }
   });
   const data = await response.json();
   if (data.error)
+    if (data.error.message === 'Not found.')
+      return;
     throw new Error(data.error.message);
 
   if (data.tracks.total === 0)
@@ -44,28 +33,15 @@ const scrapePlaylist = async () => {
   playlist.name = data.name;
   playlist.description = data.description;
   playlist.id = data.id;
-  playlist.spotifyId = data.id;
   playlist.images = data.images;
   playlist.cover = (data.images && data.images.length && data.images[0].url);
-  playlist.owner = {
-    name: data.owner.display_name,
-    id: data.owner.id,
-  };
-  playlist.tracks = {
-    spotify: {
-      total: data.tracks.total,
-      items: data.tracks.items.map((item) => ({
-        name: item.track.name,
-        artist: item.track.artists[0].name,
-        artists: item.track.artists,
-        album: item.track.album.name,
-      })),
-    }
-  };
+  playlist.tracks = data.tracks.items.map(item => item.track.id);
+  playlist.totalTracks = data.tracks.total;
+  playlist.creatorId = data.owner.id;
 
-  const jobData = await storage.getJob({ playlistId });
+  const jobData = await storage.getJobForTarget(playlistId);
   if (jobData && jobData.source)
-    playlist.tags = reddit.threadTags(jobData.source.thread);
+    playlist.tags = reddit.threadTags(JSON.parse(jobData.source).thread);
   let updated = new Date(0);
   let created = new Date(8640000000000000);
   for (const track of data.tracks.items) {
@@ -75,12 +51,15 @@ const scrapePlaylist = async () => {
   }
   playlist.updated = updated;
   playlist.created = created;
-  console.log(`Scraped "${playlist.name}" by ${playlist.owner.name}`);
-  await storage.addPlaylistInfo(playlist);
-  storage.endConnection();
+  console.log(`Scraped "${playlist.name}" by ${playlist.creatorId}`);
+  await storage.addPlaylist(playlist);
+  await storage.enqueueSpotifyCreator(playlist.creatorId)
 };
 
 scrapePlaylist()
+  .then(() => {
+    process.exit(0);
+  })
   .catch((err) => {
     console.error(err);
     process.exit(1);
