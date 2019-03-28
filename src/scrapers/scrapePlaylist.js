@@ -19,10 +19,10 @@ const scrapePlaylist = async () => {
     }
   });
   const data = await response.json();
-  if (data.error)
-    if (data.error.message === 'Not found.')
-      return;
+  if (data.error) {
+    if (data.error.message === 'Not found.') return;
     throw new Error(data.error.message);
+  }
 
   if (data.tracks.total === 0)
     return;
