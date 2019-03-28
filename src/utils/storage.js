@@ -12,8 +12,8 @@ const pool = new Pool();
 module.exports.getPlaylist = async (playlistId) => {
   return (await pool.query(
     `SELECT playlists.*, creators.name as creator 
-     FROM playlists WHERE id = $1 
-     JOIN creators on playlists.creator = creators.id`,
+       FROM playlists JOIN creators on playlists.creator = creators.id 
+       WHERE playlists.id = $1`,
     [playlistId]
   )).rows[0];
 };
