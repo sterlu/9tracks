@@ -1,6 +1,7 @@
 const React = require('react');
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider, Query } from 'react-apollo';
+import { Link } from 'react-router-dom';
 import PlaylistPlayer from '../PlaylistPlayer/PlaylistPlayer';
 import { queryPlaylists } from '../../queries/playlists';
 import PlaylistTile from './PlaylistTile/PlaylistTile';
@@ -31,20 +32,30 @@ class Explore extends React.Component {
 
   render() {
     const { currentPlaylist, playingWith } = this.state;
+    const tagFilter = this.props.match.params.tag;
 
     return (
       <ApolloProvider client={client}>
         <div className="explore-wrapper">
           {playingWith === 'spotify' && <PlaylistPlayer playlist={currentPlaylist} />}
 
-          <h2>Recent</h2>
+          <h2>
+            Recent
+            {
+              tagFilter &&
+              <span className="tag-filter-notification">
+                tagged with {tagFilter} <Link to="/" title="Clear">Clear</Link>
+              </span>
+            }
+          </h2>
 
           <Query
             query={queryPlaylists}
             notifyOnNetworkStatusChange={true}
             variables={{
               offset: 0,
-              count: 15
+              count: 15,
+              tag: tagFilter
             }}
           >
             {({ loading, error, data, fetchMore }) => {

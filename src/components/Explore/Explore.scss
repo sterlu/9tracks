@@ -1,4 +1,26 @@
 .explore-wrapper{
+  .tag-filter-notification {
+    background-color: #eee;
+    border-radius: 5px;
+    padding: 3px 0 3px 6px;
+    font-weight: bold;
+    font-size: 16px;
+    color: #555;
+    margin-left: 5px;
+    a {
+      display: inline-block;
+      border-left: 1px solid #777;
+      width: 20px;
+      text-align: center;
+      color: transparent;
+      background-position: center;
+      background-repeat: no-repeat;
+      text-decoration: none;
+      background-image: url('./cross.svg');
+      padding: 0 2px;
+    }
+  }
+
   .playlist-grid {
     display: grid;
     grid-column-gap: 50px;

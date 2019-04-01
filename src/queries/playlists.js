@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 export const queryPlaylists = gql`
-  query Playlists($offset: Int, $count: Int) {
-    playlists(offset: $offset, count: $count) {
+  query Playlists($offset: Int, $count: Int, $tag: String) {
+    playlists(offset: $offset, count: $count, tag: $tag) {
       id
       name
       description

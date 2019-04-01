@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { Link } from 'react-router-dom'
 import './PlaylistTile.scss'
 
 class PlaylistTile extends PureComponent {
@@ -24,7 +25,7 @@ class PlaylistTile extends PureComponent {
           <div className="tags-wrapper">
             {
               playlist.tags &&
-              playlist.tags.map(tag => <span key={tag}>{tag}</span>)
+              playlist.tags.map(tag => <Link to={`/tag/${tag}`} key={tag}>{tag}</Link>)
             }
           </div>
         </div>

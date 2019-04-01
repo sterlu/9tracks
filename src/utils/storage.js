@@ -18,12 +18,13 @@ module.exports.getPlaylist = async (playlistId) => {
   )).rows[0];
 };
 
-module.exports.getPlaylists = async (count, offset) => {
+module.exports.getPlaylists = async (count, offset, tag) => {
   return (await pool.query(
     `SELECT playlists.*, creators.name as creator
      FROM playlists JOIN creators on playlists.creator = creators.id
+     WHERE tags @> $3::text[]
      ORDER BY created DESC LIMIT $1 OFFSET $2`,
-    [count, offset]
+    [count, offset, tag ? [tag] : []]
   )).rows;
 };
 
