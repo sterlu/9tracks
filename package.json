@@ -6,7 +6,7 @@
   "scripts": {
     "ssr": "webpack --watch --config=webpack.server.js",
     "dev": "webpack --watch --config=webpack.client.js",
-    "prod": "webpack --config=webpack.server.js; webpack --config=webpack.client.js",
+    "prod": "NODE_ENV=production webpack --config=webpack.client.js",
     "server": "node src/server.js"
   },
   "author": "",
