@@ -36,6 +36,12 @@ module.exports = {
           }
         }]
       },
+      {
+        test: /\.(png|jpg|jpeg|gif|ico|svg)$/,
+        use: [
+          'file-loader'
+        ]
+      },
     ]
   },
   resolve: {

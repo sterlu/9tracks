@@ -11,9 +11,6 @@
   a {
     color: inherit;
     text-decoration: none;
-    &:hover {
-      text-decoration: underline;
-    }
   }
 
   p {
@@ -56,7 +53,49 @@
 
       .actions {
         position: absolute;
-        bottom: 20px;
+        bottom: 15px;
+        left: 0;
+        right: 0;
+        padding: 0 15px 0 39px;
+        display: flex;
+        justify-content: space-between;
+
+        a {
+          display: inline-block;
+          height: 14px;
+          width: 14px;
+          padding: 5px;
+          font-size: 0;
+          color: transparent;
+          position: relative;
+          background-position: center;
+          background-repeat: no-repeat;
+
+          &:hover {
+            opacity: .8;
+          }
+          &:active {
+            opacity: .6;
+          }
+
+          &.play {
+            background-image: url('./play.svg');
+            &:after {
+              content: '';
+              height: 36px;
+              width: 36px;
+              top: -6px;
+              left: -8px;
+              position: absolute;
+              border-radius: 50%;
+              background-color: rgba(white, .2);
+            }
+          }
+
+          &.open {
+            background-image: url('./open.svg');
+          }
+        }
       }
     }
 

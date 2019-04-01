@@ -11,9 +11,9 @@ class PlaylistTile extends PureComponent {
             <p><b>by {playlist.creator} | {playlist.total_tracks} tracks</b></p>
             <p className="description" dangerouslySetInnerHTML={{ __html: playlist.description }} />
             <div className="actions">
-              <a onClick={() => this.props.play(playlist)} title="Play">▶️ Play</a>
-              <br />
-              <a href={`spotify:playlist:${playlist.id}`} title="Open in Spotify">↗️ Open</a>
+              <span></span>
+              <a className="play" onClick={() => this.props.play(playlist)} title="Play">▶️</a>
+              <a className="open" href={`spotify:playlist:${playlist.id}`} title="Open in Spotify">↗️</a>
             </div>
           </div>
         </div>
