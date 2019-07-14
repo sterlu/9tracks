@@ -8,7 +8,7 @@ const apiLink = (id) => `https://api.reddit.com/comments/${id}?depth=1`;
 
 const threadId = process.argv[2];
 
-const playlistUrlRegex = /https:\/\/open\.spotify\.com\/user\/[^/]*\/playlist\/[\w]*/;
+const playlistUrlRegex = /https:\/\/open\.spotify\.com(\/user\/[^\/]*)?\/playlist\/[\w]*/;
 
 const scrapeThread = async () => {
   const response = await fetch(apiLink(threadId));
