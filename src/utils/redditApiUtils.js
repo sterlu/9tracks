@@ -14,6 +14,7 @@ module.exports.threadTags = (threadId) => {
     '8borze': 'Party tunes',
     'b7w1js': 'Reckless Serenade',
     'bkpsr1': 'Longlist',
+    'c7xwqm': 'My Festival',
   };
   console.log(spotifyMonthlyCompetitions[threadId])
   if (spotifyMonthlyCompetitions[threadId])
