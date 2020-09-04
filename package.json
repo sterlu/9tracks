@@ -27,7 +27,7 @@
     "graphql": "^14.1.1",
     "graphql-tag": "^2.10.1",
     "node-fetch": "^2.3.0",
-    "node-sass": "^4.11.0",
+    "node-sass": "^4.13.1",
     "pg": "^7.9.0",
     "react": "^16.8.2",
     "react-apollo": "^2.4.1",
